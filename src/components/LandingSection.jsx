@@ -1,6 +1,21 @@
 import { ArrowDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export const LandingSection = () => {
+
+    const [isScrolled, setIsScrolled] = useState(false);
+    
+    
+    useEffect(() => {
+        const handleScroll = () => {
+        setIsScrolled(window.scrollY > 60);
+        };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <section id="landing" className="relative min-h-screen flex flex-col items-center justify-center px-4">
             <div className="container max-w-4xl mx-auto text-center z-10"> 
@@ -24,8 +39,14 @@ export const LandingSection = () => {
                 </div>
             </div>
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
-                <span className="text-sm text-muted-foreground mb-2"> Scroll </span>
-                <ArrowDown className="h-5 w-h text-primary"/>
+                <span className={cn(
+                    "text-sm text-muted-foreground mb-2",
+                    isScrolled ? "hidden" : "text-sm text-muted-foreground mb-2"
+                )}> Scroll </span>
+                <ArrowDown className={cn(
+                        "h-5 w-h text-primary",
+                        isScrolled ? "hidden" : "h-5 w-h text-primary"
+                      )}/>
             </div>
         </section>
     );
